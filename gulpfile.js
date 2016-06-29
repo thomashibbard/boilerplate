@@ -9,6 +9,7 @@ const gulp = require('gulp')
 	, sass = require('gulp-sass')
 	, autoprefixer = require('gulp-autoprefixer')
 	,	jshint = require('gulp-jshint')
+	, jshintStylish = require('jshint-stylish')
 	,	sourcemaps = require('gulp-sourcemaps')
 	,	scsslint = require('gulp-scss-lint');
 
@@ -51,25 +52,30 @@ gulp.task('serve', function () {
 		});
 
 	gulp.watch(src.scss		+ '/**/*.scss', ['sass']);
-	gulp.watch(src.js 		+ '/**/*.js', ['webpack']);
+	gulp.watch(src.js 		+ '/**/*.js', ['lint-pack']);
 
 	gulp.watch(paths.path + '/**/*.html').on('change', browsersync.reload);
 
 });
 
 gulp.task('sass', ['compile-sass', 'scss-lint'], function(){
-	console.log('completed sass ', src.scss + '/**/*.scss');
+	console.log('completed sass linting and compiling');
 });
+gulp.task('lint-pack', ['js-lint', 'webpack'], function(){
+	console.log('completed linting and packing');
+})
 
 gulp.task('compile-sass', function() {
-	console.log('compiling sass @', src.scss + '/main.scss');
 	return gulp.src(src.scss + '/main.scss')
+	  .pipe(sourcemaps.init())
+	  .pipe(sass().on('error', sass.logError))
+	  .pipe(sourcemaps.write())
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions', 'Explorer 9']
 		}))
 		.pipe(sass())
 		.pipe(gulp.dest(dist.css))
-		.pipe(browsersync.reload({stream: true}));
+		//.pipe(browsersync.reload({stream: true}));
 });
 
 gulp.task('scss-lint', function() {
@@ -85,7 +91,7 @@ gulp.task('js-lint', function() {
 			jquery: true,
 			curly: true
 		}))
-		.pipe(jshint.reporter('default'));
+		.pipe(jshint.reporter(jshintStylish));
 });
 
 
@@ -102,25 +108,8 @@ gulp.task('wire-own', function() {
 	 .pipe(gulp.dest('.'));
 });
 
-// gulp.task('webpadck', function(){
-// 	console.log(glob.sync(src.js + '/**/*.js'));
-// 	webpack({
-// 		entry: src.js + '/index.js', //glob.sync(src.js + '/**/*.js'),
-// 		output: { path: dist.js, file: 'app.bundle.js' },
-// 		devtool: 'source-map'
-// 	}, function(err, stats) {
-// 		console.log('!!!error ', err)
-// 		if(err){
-// 			console.log('webpack err', err);
-// 		}else{
-// 			console.log('done webpacking', stats);
-// 		}
-// 	});
-
-// });
-
 gulp.task('webpack', function() {
-	console.log('webpacking . . . ')
+
 	var webpackConfig = {
 	  output: {
 	    filename: 'app.bundle.js'
@@ -129,7 +118,6 @@ gulp.task('webpack', function() {
 	  debug: true
 	};
 
-	//gulp.src(src.js + '/index.js')
 	gulp.src(glob.sync(src.js + '/**/*.js'))
 		.pipe(webpack(webpackConfig))
 		.pipe(gulp.dest(dist.js));
