@@ -1,0 +1,22 @@
+{
+  "name": "grid",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    "Thomas Hibbard <loren.hibbard@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.0.0",
+    "lodash": "^4.13.1",
+    "skeleton": "^2.0.4"
+  }
+}

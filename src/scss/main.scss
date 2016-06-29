@@ -1,0 +1,9 @@
+@import 'susy';
+
+$color: #ffffff;
+
+span{
+	border: 1px solid $color;
+	user-select: none;
+	color: orange;
+}
