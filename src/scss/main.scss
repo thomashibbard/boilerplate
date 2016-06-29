@@ -1,9 +1,6 @@
-@import 'susy';
+@import 'variables';
 
-$color: orange;
-
-*{
-	border: 1px solid $color;
-	user-select: none;
-	color: blue;
+h1{
+	font-weight: bold;
+	color: $redorange;
 }
