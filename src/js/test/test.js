@@ -1,6 +1,6 @@
 (function(){
 	var b = function(){
-		console.log('a test function in a nested file')
-	}
-	a();
+		console.log('a test function in a nested file');
+	};
+	b();
 })();
