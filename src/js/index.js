@@ -1,6 +1,6 @@
 (function(){
-	var a
-	var b = function(){
-		console.log('test');
+	var a = function(){
+		console.log('a test function');
 	};
+	a();
 })();

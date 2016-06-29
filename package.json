@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.13.0",
+    "glob": "^7.0.5",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-inject": "^4.1.0",
@@ -17,6 +18,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-scss-lint": "^0.4.0",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
     "jshint": "^2.9.2",
     "path": "^0.12.7",
     "webpack-stream": "^3.2.0",
