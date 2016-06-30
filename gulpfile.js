@@ -11,7 +11,8 @@ const gulp = require('gulp')
 	,	jshint = require('gulp-jshint')
 	, jshintStylish = require('jshint-stylish')
 	,	sourcemaps = require('gulp-sourcemaps')
-	,	scsslint = require('gulp-scss-lint');
+	,	scsslint = require('gulp-scss-lint')
+	, argv = require('yargs').argv;
 
 var config = {
 	ip: '10.101.24.47',
@@ -28,6 +29,7 @@ var src = {
 	index: './index.html',
 	html: './app/*.html'
 };
+
 var dist = {
 	css: paths.path + '/dist/css',
 	js: paths.path + '/dist/js'
@@ -35,33 +37,36 @@ var dist = {
 
 gulp.task('serve', function () {
 
-	//browsersync.init({
-	//	proxy: 'http://' + config.ip + ':' + config.port + '/'
-	//});
-
-	browsersync.init({
+	if(argv.port){
+		const PORT = argv.port;
+		browsersync.init({
+			proxy: 'http://' + config.ip + ':' + PORT + '/'
+		});
+	}else{
+			browsersync.init({
 			server: '.',
 			files: [
 			'./bower_components/**/*.css',
 			'./bower_components/**/*.js',
 			'./dist/**/*.css',
 			'./dist/js/*.*',
-			//'./dist/js/app.bundle.js.map',
 			'./**/*.html'
 			]
 		});
+	}
 
-	gulp.watch(src.scss		+ '/**/*.scss', ['sass']);
-	gulp.watch(src.js 		+ '/**/*.js', ['lint-pack']);
+
+	gulp.watch(src.scss		+ '/**/*.scss', ['sass-lint-compile']);
+	gulp.watch(src.js 		+ '/**/*.js', ['js-lint-compile']);
 
 	gulp.watch(paths.path + '/**/*.html').on('change', browsersync.reload);
 
 });
 
-gulp.task('sass', ['compile-sass', 'scss-lint'], function(){
+gulp.task('sass-lint-compile', ['scss-lint', 'compile-sass'], function(){
 	console.log('completed sass linting and compiling');
 });
-gulp.task('lint-pack', ['js-lint', 'webpack'], function(){
+gulp.task('js-lint-compile', ['js-lint', 'webpack'], function(){
 	console.log('completed linting and packing');
 })
 
