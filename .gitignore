@@ -3,4 +3,6 @@ node_modules
 
 
 .sass-cache
+dist/js/**/*.js
+dist/js/**/*.js.map
 dist/css/**/*.css
