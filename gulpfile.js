@@ -13,7 +13,8 @@ const gulp = require('gulp')
 	,	sourcemaps = require('gulp-sourcemaps')
 	,	scsslint = require('gulp-scss-lint')
 	, argv = require('yargs').argv
-	, nodemon = require('gulp-nodemon');;
+	, nodemon = require('gulp-nodemon')
+	, injectTemplates = require('angular-inject-templates');
 
 var config = {
 	ip: '10.101.24.47',
@@ -112,10 +113,12 @@ gulp.task('wire-own', function() {
 	 .pipe(gulp.dest('.'));
 });
 
-// gulp.task('wire-angular', function(){
-//     gulp.src('src/scripts/**/*.js')
-//         .pipe(injectTemplates())
-// });
+gulp.task('inject-ng-templates', function () {
+    gulp.src('src/js/app/**/*.js')
+        .pipe(injectTemplates())
+        .pipe(gulp.dest('./dist'));
+});
+
 
 gulp.task('webpack', function() {
 
