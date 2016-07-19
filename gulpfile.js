@@ -12,7 +12,8 @@ const gulp = require('gulp')
 	, jshintStylish = require('jshint-stylish')
 	,	sourcemaps = require('gulp-sourcemaps')
 	,	scsslint = require('gulp-scss-lint')
-	, argv = require('yargs').argv;
+	, argv = require('yargs').argv
+	, nodemon = require('gulp-nodemon');;
 
 var config = {
 	ip: '10.101.24.47',
@@ -35,33 +36,31 @@ var dist = {
 	js: paths.path + '/dist/js'
 };
 
-gulp.task('serve', function () {
+gulp.task('default', ['browser-sync'], function () {
+});
 
-	if(argv.port){
-		const PORT = argv.port;
-		browsersync.init({
-			proxy: 'http://' + config.ip + ':' + PORT + '/'
-		});
-	}else{
-			browsersync.init({
-			server: '.',
-			files: [
-			'./bower_components/**/*.css',
-			'./bower_components/**/*.js',
-			'./dist/**/*.css',
-			'./dist/js/*.*',
-			'./**/*.html'
-			]
-		});
-	}
-
-
+gulp.task('browser-sync', ['nodemon'], function() {
+	browsersync.init(null, {
+		proxy: "http://localhost:5000",
+        files: [
+        	__dirname + '/**/*.*'
+        ],
+        browser: "google chrome",
+        port: 7000,
+	});
 	gulp.watch(src.scss		+ '/**/*.scss', ['sass-lint-compile']);
 	gulp.watch(src.js 		+ '/**/*.js', ['js-lint-compile']);
-
 	gulp.watch(paths.path + '/**/*.html').on('change', browsersync.reload);
 
 });
+
+gulp.task('nodemon', function (cb) {
+    return nodemon({
+      script: './server.js'
+    }).once('start', cb);
+});
+
+
 
 gulp.task('sass-lint-compile', ['scss-lint', 'compile-sass'], function(){
 	console.log('completed sass linting and compiling');
@@ -107,11 +106,15 @@ gulp.task('wire-vendor', function() {
 });
 
 gulp.task('wire-own', function() {
-	console.log('CSS', dist.css + '/main.css');
 	gulp.src(src.index)
 	 .pipe(inject(gulp.src([dist.js + '/**/*.js', dist.css + '/main.css'], {read: false})))
 	 .pipe(gulp.dest('.'));
 });
+
+// gulp.task('wire-angular', function(){
+//     gulp.src('src/scripts/**/*.js')
+//         .pipe(injectTemplates())
+// });
 
 gulp.task('webpack', function() {
 

@@ -17,6 +17,7 @@
   "dependencies": {
     "jquery": "^3.0.0",
     "lodash": "^4.13.1",
-    "skeleton": "^2.0.4"
+    "skeleton": "^2.0.4",
+    "angular": "^1.5.7"
   }
 }

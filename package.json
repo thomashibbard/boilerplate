@@ -9,6 +9,7 @@
   "author": "Thomas Hibbard",
   "license": "ISC",
   "devDependencies": {
+    "angular-inject-templates": "^0.1.2",
     "browser-sync": "^2.13.0",
     "glob": "^7.0.5",
     "gulp": "^3.9.1",
@@ -25,5 +26,12 @@
     "webpack-stream": "^3.2.0",
     "wiredep": "^4.0.0",
     "yargs": "^4.7.1"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "express": "^4.14.0",
+    "fs": "0.0.2",
+    "gulp-nodemon": "^2.1.0",
+    "q": "^1.4.1"
   }
 }
