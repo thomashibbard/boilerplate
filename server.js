@@ -15,16 +15,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/test', function(req, res){
-	var deferred = Q.defer();
-	fs.readFile("gulpfile.js", "utf-8", function (error, text) {
-		if (error) {
-			deferred.reject(new Error(error));
-		} else {
-			res.send(text);
-			deferred.resolve(text);
-		}
-	});
-	return deferred.promise;
+    var promise = Q.ninvoke(fs, "readFile", "gulpfile.js", "utf-8");
+    promise.then(function (text) {
+        res.status(200).send(text);
+    }, function(error) {
+        console.error(error);
+        res.status(500).send("oops");
+    });
 });
 
 app.listen(5000);
