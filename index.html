@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Page</title>
+  <!-- bower:css -->
+  <link rel="stylesheet" href="./bower_components/skeleton/css/skeleton.css" />
+  <!-- endbower -->
+
+  <!-- inject:css -->
+  <link rel="stylesheet" href="./dist/css/main.css">
+  <!-- endinject -->
+</head>
+<body ng-app="appy" ng-controller="ctrl">
+  <button ng-click="ajaxFn()">click</button>
+  <!-- bower:js -->
+  <script src="./bower_components/jquery/dist/jquery.js"></script>
+  <script src="./bower_components/lodash/lodash.js"></script>
+  <script src="./bower_components/angular/angular.js"></script>
+  <!-- endbower -->
+
+  <!-- inject:js -->
+  <script src="dist/js/app.bundle.js"></script>
+  <!-- endinject -->
+
+</body>
+</html>
+<script>
+  var app = angular.module('appy', []);
+  app.controller('ctrl', ctrl);
+  app.factory('Facty', Facty);
+  //Facty.$inject('$http');
+  ctrl.$inject = ['$scope', '$http', 'Facty'];
+
+  function ctrl($scope, $http, Facty) {
+    $scope.ajaxFn = function(){
+      Facty.get().then(function(data){
+          console.log('resolved data', data);
+        }, function(err){
+          console.log('err', err);
+        });;
+    };
+  };
+
+  function Facty($http){
+    return {
+      get: function(){
+        console.log('clicking in facty');
+        return $http({
+          type: 'get',
+          url: './test/',
+        });
+      }
+    };
+  }
+
+</script>
