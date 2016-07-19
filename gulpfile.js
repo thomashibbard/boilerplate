@@ -41,16 +41,17 @@ gulp.task('default', ['browser-sync'], function () {
 
 gulp.task('browser-sync', ['nodemon'], function() {
 	browsersync.init(null, {
-		proxy: "http://localhost:5000",
+		proxy: 'localhost:5000',
         files: [
         	__dirname + '/**/*.*'
         ],
-        browser: "google chrome",
+        browser: 'google chrome',
         port: 7000,
 	});
 	gulp.watch(src.scss		+ '/**/*.scss', ['sass-lint-compile']);
 	gulp.watch(src.js 		+ '/**/*.js', ['js-lint-compile']);
 	gulp.watch(paths.path + '/**/*.html').on('change', browsersync.reload);
+	gulp.watch(paths.path + '/server.js').on('change', browsersync.reload);
 
 });
 
