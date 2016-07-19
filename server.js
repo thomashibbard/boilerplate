@@ -15,13 +15,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/test', function(req, res){
-    var promise = Q.ninvoke(fs, "readFile", "gulpfile.js", "utf-8");
-    promise.then(function (text) {
-        res.status(200).send(text);
-    }, function(error) {
-        console.error(error);
-        res.status(500).send("oops");
-    });
+		var promise = Q.ninvoke(fs, 'readFile', 'gulpfile.js', 'utf-8');
+		promise.then(function (text) {
+				res.status(200).send(text);
+		}, function(err) {
+				console.error(err);
+				res.status(500).send(err);
+		});
 });
 
 app.listen(5000);
